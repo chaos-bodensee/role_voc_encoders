@@ -1,0 +1,31 @@
+---
+- name: Disbale IPv6 on all interfaces
+  become: true
+  when: disable_ipv6 | bool
+  sysctl: 
+    name: 'net.ipv6.conf.all.disable_ipv6'
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+# Create common files and directories
+- name: create /video if not present
+  become: true
+  file: 
+    dest: '/video'
+    state: directory
+
+- name: create common.sh
+  become: true
+  copy:
+    src: files/common.sh
+    dest: /etc/service/common.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: set timezone to Europe/Berlin
+  become: true
+  timezone:
+    name: "{{ voc_event_timezone }}"

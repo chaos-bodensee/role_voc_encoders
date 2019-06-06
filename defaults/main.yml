@@ -12,3 +12,10 @@ disable_ipv6: true
 #  The can not pull the newest version of this repo
 #  If we run a more up to date version bevor... It crashes and require an update.
 submodules_versioncheck: true
+
+# general encoders setup
+#  HIGLY recomended
+encoders_general_setup: true
+
+# set timezone
+voc_event_timezone: 'Europe/Berlin'
