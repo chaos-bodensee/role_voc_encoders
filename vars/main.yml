@@ -1,3 +1,26 @@
 ---
 playbook_version_number: 8991 # should be over ninethousand!
-playbook_version_path: '/etc/ansible-version/voc_encoders_chaos-bodensee_github.com.version' 
+playbook_version_path: '/etc/ansible-version/voc_encoders_chaos-bodensee_github.com.version'
+
+voc_encoder_packages:
+    - nginx
+    - libnginx-mod-rtmp
+    - icecast2
+    - samba
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-base
+    - gstreamer1.0-plugins-good
+    - gstreamer1.0-plugins-ugly
+    - gstreamer1.0-libav
+    - gstreamer1.0-tools
+    - gstreamer1.0-vaapi
+    - libgstreamer1.0-0
+    - python3
+    - python3-gi
+    - python3-pyinotify
+    - gir1.2-gstreamer-1.0
+    - gir1.2-gst-plugins-base-1.0
+    - rlwrap
+    - fbset
+    - desktopvideo
+

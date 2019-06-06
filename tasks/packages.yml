@@ -1,0 +1,6 @@
+---
+- name: install voc encoder packages
+  become: true
+  package:
+    name: "{{ voc_encoder_packages }}"
+    state: present

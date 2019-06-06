@@ -2,6 +2,9 @@
 - include_tasks: versioncheck.yml
   when: submodules_versioncheck|bool
 
-- include_tasks: heneral.yml
+- include_tasks: general.yml
+  when: encoders_general_setup|bool
+
+- include_tasks: packages.yml
   when: encoders_general_setup|bool
 
