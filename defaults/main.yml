@@ -1,2 +1,14 @@
 ---
+# should we have ipv6 default settings or disable it in the kernel
+#  if we keep ipv6 we require a working setup
+#  if we disable it, missconfigurations won't hurt us.
+#  Usually it is more simple to get working ipv6 than ipv4.
+#  BUT in rallity many IPv6 stacks are sometimes broken...
+#  That is the reason why the default value disables IPv6
 disable_ipv6: true
+
+# version control of this repo
+#  the reason is: People are stupid!
+#  The can not pull the newest version of this repo
+#  If we run a more up to date version bevor... It crashes and require an update.
+submodules_versioncheck: true

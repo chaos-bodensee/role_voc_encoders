@@ -1,4 +1,8 @@
 ---
+- include_tasks: versioncheck.yml
+  when: submodules_versioncheck|bool
+
+
 - name: Disbale IPv6 on all interfaces
   become: true
   when: disable_ipv6 | bool
