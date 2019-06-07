@@ -5,7 +5,7 @@
   register: old_units
 
 - debug: 
-  msg: "{{ old_units.stdout_lines }}"
+    msg: "{{ old_units.stdout_lines }}"
 
 - name: disable & stop old units
   become: true
