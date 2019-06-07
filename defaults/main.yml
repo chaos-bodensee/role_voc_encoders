@@ -24,3 +24,7 @@ encoders_voctomix_setup: true
 
 # enter event acronym
 voc_event_acronym: toolbox
+
+# do you know what the voc is doing for servic scripts
+scip_random_voc_warning_because_you_know_what_you_are_doing: false
+encoders_voctomix_setup_advanced_random_services: false

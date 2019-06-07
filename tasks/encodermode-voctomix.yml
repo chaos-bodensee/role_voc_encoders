@@ -1,4 +1,9 @@
 ---
+- name: continue plz
+  fail:
+    msg: "be carefull what you  are doing"
+  when: scip_random_voc_warning_because_you_know_what_you_are_doing | bool
+
 - name: find old units
   become: true
   shell: (grep -l "#MANAGED BY ANSIBLE" -r /etc/systemd/system/; find /etc/systemd/system/ -type f -name 'voctomix-*') | xargs -rl1 basename
@@ -426,7 +431,3 @@
 
 
 
-
-- name: continue plz
-  fail:
-    msg: "please continue, L3D"
