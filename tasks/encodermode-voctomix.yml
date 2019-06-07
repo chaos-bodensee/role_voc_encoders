@@ -31,6 +31,25 @@
     - /etc/systemd/system/voctocore.service.wants
     - /etc/systemd/system/voctomix-voctocore.service.wants
 
+  # directories & code
+- name: create voctomix directories
+  become: true
+  file:
+    dest: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+  with_items:
+      - /opt/voc/scripts/
+      - /opt/voc/release/
+      - /video/capture/{{ voc_event_acronym }}
+      - /video/encoded/{{ voc_event_acronym }}
+      - /video/tmp/{{ voc_event_acronym }}
+      - /video/intros/{{ voc_event_acronym }}
+      - /video/fuse/{{ voc_event_acronym }}
+
+
 - name: continue plz
   fail:
     msg: "please continue, L3D"

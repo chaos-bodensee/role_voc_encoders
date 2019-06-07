@@ -21,3 +21,6 @@ encoders_general_setup: true
 voc_event_timezone: 'Europe/Berlin'
 
 encoders_voctomix_setup: true
+
+# enter event acronym
+voc_event_acronym: toolbox
