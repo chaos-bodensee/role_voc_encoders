@@ -8,3 +8,6 @@
 - include_tasks: packages.yml
   when: encoders_general_setup|bool
 
+- include_tasks: encodermode-voctomix.yml
+  when: encoders_voctomix_setup|bool
+

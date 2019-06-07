@@ -19,3 +19,5 @@ encoders_general_setup: true
 
 # set timezone
 voc_event_timezone: 'Europe/Berlin'
+
+encoders_voctomix_setup: true

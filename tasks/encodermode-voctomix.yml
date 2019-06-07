@@ -1,0 +1,36 @@
+---
+- name: find old units
+  become: true
+  shell: (grep -l "#MANAGED BY ANSIBLE" -r /etc/systemd/system/; find /etc/systemd/system/ -type f -name 'voctomix-*') | xargs -rl1 basename
+  register: old_units
+
+- debug: 
+  msg: "{{ old_units.stdout_lines }}"
+
+- name: disable & stop old units
+  become: true
+  service: name={{ item }}
+            enabled=no
+            state=stopped
+  with_items: "{{ old_units.stdout_lines }}"
+  ignore_errors: yes
+
+- name: remove old unit-files
+  become: true
+  file:
+    state: absent
+    path: "/etc/systemd/system/{{ item }}"
+  with_items: old_units.stdout_lines
+
+- name: remove old voctocore.service.wants-dir
+  become: true
+  file: 
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - /etc/systemd/system/voctocore.service.wants
+    - /etc/systemd/system/voctomix-voctocore.service.wants
+
+- name: continue plz
+  fail:
+    msg: "please continue, L3D"
