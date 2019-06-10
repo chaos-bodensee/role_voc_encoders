@@ -73,12 +73,14 @@
 
 # check recording - called via check_system script (common role)
 - name: copy check_recording script
+  become: true
   copy: src="files/check_recording.pl"
         dest="/usr/local/bin/check_recording.pl"
         mode=0755 owner=root group=root
 
 - name: Symlink check recording script
-  file: src=/usr/local/sbin/check_system.sh
+  become: true
+  file: src=/usr/local/bin/check_recording.pl
         dest=/opt/voc/scripts/check_recording.sh
         state=link
 

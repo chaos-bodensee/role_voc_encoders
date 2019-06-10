@@ -27,9 +27,6 @@ voc_event_timezone: 'Europe/Berlin'
 
 encoders_voctomix_setup: true
 
-# enter event acronym
-voc_event_acronym: toolbox
-
 # do you know what the voc is doing for servic scripts
 #  to work with the toolbox bodensee setup it is currently (summer 2019) recomended
 #  that you keep these three variables like there are now!
