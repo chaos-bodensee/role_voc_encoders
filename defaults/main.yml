@@ -3,6 +3,8 @@
 room_fahrplan_name: toolbox
 voc_event_acronym: toolbox
 
+# encodermode to controll if active or not
+encodermode: 'hd-voctomix'
 
 # should we have ipv6 default settings or disable it in the kernel
 #  if we keep ipv6 we require a working setup

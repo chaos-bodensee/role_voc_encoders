@@ -87,6 +87,7 @@
   when: voc_perl_is_fixed | bool
 
 - cron: name="check recording and send mqtt message"
+  become: true
         state=absent
         minute="*/1" hour="*" month="*" day="*"
         job="nice -n 19 /opt/voc/scripts/check_recording.sh >/dev/null"
@@ -98,18 +99,21 @@
 # but only, if we know what they do
 # currently we do it more simple!
 - name: create -inactive- combined streaming script
+  become: true
   template: src="voctomix-scripts/streaming-sink-combined.sh.j2"
             dest="/opt/voc/scripts/streaming-sink-combined.sh"
             mode=0755 owner=root group=root
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 - name: create mkv-only streaming script
+  become: true
   template: src="voctomix-scripts/streaming-sink-mkvonly.sh.j2"
             dest="/opt/voc/scripts/streaming-sink-mkvonly.sh"
             mode=0755 owner=root group=root
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 - name: create mkv-only systemd-unit
+  become: true
   template: src="systemd-units/streaming-sink.service.j2"
             dest="/etc/systemd/system/streaming-sink-{{ item }}.service"
             mode=0644 owner=root group=root
@@ -117,12 +121,14 @@
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 - name: enable streaming-sink-mkvonly service
+  become: true
   service: name=streaming-sink-mkvonly.service
            enabled={{ streaming_service_enabled }}
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 
 - name: create framebuffer playout systemd-unit
+  become: true
   template: src="voctomix-scripts/framebuffer-playout.sh.j2"
             dest="/opt/voc/scripts/{{ item }}-to-framebuffer-playout.sh"
             mode=0755 owner=root group=root
@@ -130,6 +136,7 @@
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 - name: create playout systemd-unit
+  become: true
   template: src="systemd-units/framebuffer-playout.service.j2"
             dest="/etc/systemd/system/{{ item }}-to-framebuffer-playout.service"
             mode=0644 owner=root group=root
@@ -137,10 +144,54 @@
   when: voc_enable_original_fancy_streaming_to_localhost | bool
 
 - name: disable playout service
+  become: true
   service: name={{ item }}-to-framebuffer-playout.service
            enabled=false
   with_items: [program, stream]
   when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+
+
+
+
+# voctocore service
+# here will be our core service created
+- name: create voctocore systemd-unit
+  become: true
+  template:
+    src: "toolbox-systemd-units/voctocore.service.j2"
+    dest: "/etc/systemd/system/voctocore.service"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: reload systemd daemon
+  become: true
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: enable & (re)start voctocore service when in voctomix-mode
+  become: true
+  systemd:
+    name: voctocore.service
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  when: encodermode is defined and encodermode == 'hd-voctomix'
+
+- name: disable & stop voctocore service when not in voctomix-mode
+  become: true
+  service: name=voctocore.service
+             enabled=no
+             state=stopped
+  when: encodermode is not defined or encodermode != 'hd-voctomix'
+
+- name: create voctomix-status script
+  become: true
+  template: src="voctomix-scripts/voctomix-status.j2"
+              dest="/usr/bin/voctomix-status"
+              mode=0755 owner=root group=root
+
 
 
 
