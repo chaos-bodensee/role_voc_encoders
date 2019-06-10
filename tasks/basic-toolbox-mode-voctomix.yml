@@ -93,3 +93,54 @@
   when: voc_perl_is_fixed | bool
 
 
+
+# create services for streaming
+# but only, if we know what they do
+# currently we do it more simple!
+- name: create -inactive- combined streaming script
+  template: src="voctomix-scripts/streaming-sink-combined.sh.j2"
+            dest="/opt/voc/scripts/streaming-sink-combined.sh"
+            mode=0755 owner=root group=root
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+- name: create mkv-only streaming script
+  template: src="voctomix-scripts/streaming-sink-mkvonly.sh.j2"
+            dest="/opt/voc/scripts/streaming-sink-mkvonly.sh"
+            mode=0755 owner=root group=root
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+- name: create mkv-only systemd-unit
+  template: src="systemd-units/streaming-sink.service.j2"
+            dest="/etc/systemd/system/streaming-sink-{{ item }}.service"
+            mode=0644 owner=root group=root
+  with_items: [mkvonly]
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+- name: enable streaming-sink-mkvonly service
+  service: name=streaming-sink-mkvonly.service
+           enabled={{ streaming_service_enabled }}
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+
+- name: create framebuffer playout systemd-unit
+  template: src="voctomix-scripts/framebuffer-playout.sh.j2"
+            dest="/opt/voc/scripts/{{ item }}-to-framebuffer-playout.sh"
+            mode=0755 owner=root group=root
+  with_items: [program, stream]
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+- name: create playout systemd-unit
+  template: src="systemd-units/framebuffer-playout.service.j2"
+            dest="/etc/systemd/system/{{ item }}-to-framebuffer-playout.service"
+            mode=0644 owner=root group=root
+  with_items: [program, stream]
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+- name: disable playout service
+  service: name={{ item }}-to-framebuffer-playout.service
+           enabled=false
+  with_items: [program, stream]
+  when: voc_enable_original_fancy_streaming_to_localhost | bool
+
+
+

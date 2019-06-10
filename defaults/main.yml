@@ -39,3 +39,7 @@ voctomix_parallel_slide_recording: false
 
 # perl needs to be fixed bevor enable this option!!!
 voc_perl_is_fixed: false
+
+# we should understand how the local voc pipeline work and understand
+# icecast and all the other crazy and awesome stuff bevore enabeling it
+voc_enable_original_fancy_streaming_to_localhost: false

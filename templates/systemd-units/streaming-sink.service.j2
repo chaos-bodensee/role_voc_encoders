@@ -7,7 +7,7 @@ Requires = voctocore.service
 
 [Service]
 Type = simple
-ExecStart = /opt/voctomix/scripts/streaming-sink-{{ item }}.sh
+ExecStart = /opt/voc/scripts/streaming-sink-{{ item }}.sh
 Restart = always
 RestartSec = 1s
 StartLimitInterval = 0
