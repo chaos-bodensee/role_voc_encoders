@@ -1,4 +1,9 @@
 ---
+# important variables for streaming/recording you probably want to define:
+room_fahrplan_name: toolbox
+voc_event_acronym: toolbox
+
+
 # should we have ipv6 default settings or disable it in the kernel
 #  if we keep ipv6 we require a working setup
 #  if we disable it, missconfigurations won't hurt us.
