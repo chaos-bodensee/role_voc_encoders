@@ -36,3 +36,6 @@ voc_mqtt: false
 
 # to enable the voctomix.parallel_slide_recording you have to fix some variables!
 voctomix_parallel_slide_recording: false
+
+# perl needs to be fixed bevor enable this option!!!
+voc_perl_is_fixed: false

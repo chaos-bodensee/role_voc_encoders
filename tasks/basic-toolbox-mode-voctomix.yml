@@ -77,11 +77,19 @@
   copy: src="files/check_recording.pl"
         dest="/usr/local/bin/check_recording.pl"
         mode=0755 owner=root group=root
+  when: voc_perl_is_fixed | bool
 
-- name: Symlink check recording script
+- name: Symlink check recording script to /opt/voc/...
   become: true
   file: src=/usr/local/bin/check_recording.pl
         dest=/opt/voc/scripts/check_recording.sh
         state=link
+  when: voc_perl_is_fixed | bool
+
+- cron: name="check recording and send mqtt message"
+        state=absent
+        minute="*/1" hour="*" month="*" day="*"
+        job="nice -n 19 /opt/voc/scripts/check_recording.sh >/dev/null"
+  when: voc_perl_is_fixed | bool
 
 
