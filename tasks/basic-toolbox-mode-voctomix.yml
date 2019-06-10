@@ -7,6 +7,44 @@
 - debug: 
     msg: "{{ old_units.stdout_lines }}"
 
+# directories & code
+- name: create voctomix directories
+  become: true
+  file:
+    dest: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+  with_items:
+      - /opt/voc/scripts/
+      - /opt/voc/release/
+      - /video/capture/{{ voc_event_acronym }}
+      - /video/encoded/{{ voc_event_acronym }}
+      - /video/tmp/{{ voc_event_acronym }}
+      - /video/intros/{{ voc_event_acronym }}
+      - /video/fuse/{{ voc_event_acronym }}
+
+
+# decklink sources
+- name: deploy decklink-format-detection-script
+  become: true
+  template:
+    src: "voctomix-scripts/ffmpeg-detect-mode-number.sh.j2"
+    dest: "/opt/voc/scripts/ffmpeg-detect-mode-number.sh"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: deploy decklink-format-test-all-script
+  become: true
+  template: 
+    src: "voctomix-scripts/ffmpeg-test-all-decklink-modes.sh.j2"
+    dest: "/opt/voc/scripts/ffmpeg-test-all-decklink-modes.sh"
+    mode: 0755
+    owner: root
+    group: root
+
 
   # recording sink
 - name: create recording script

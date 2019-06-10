@@ -59,7 +59,7 @@
   become: true
   template:
     src: "voctomix-scripts/ffmpeg-detect-mode-number.sh.j2"
-    dest: "/opt/voctomix/scripts/ffmpeg-detect-mode-number.sh"
+    dest: "/opt/voc/scripts/ffmpeg-detect-mode-number.sh"
     mode: 0755
     owner: root
     group: root
@@ -68,7 +68,7 @@
   become: true
   template: 
     src: "voctomix-scripts/ffmpeg-test-all-decklink-modes.sh.j2"
-    dest: "/opt/voctomix/scripts/ffmpeg-test-all-decklink-modes.sh"
+    dest: "/opt/voc/scripts/ffmpeg-test-all-decklink-modes.sh"
     mode: 0755
     owner: root
     group: root
@@ -78,7 +78,7 @@
   become: true
   template:
     src: "voctomix-scripts/decklink-source.sh.j2"
-    dest: "/opt/voctomix/scripts/{{ item.1.name }}-source.sh"
+    dest: "/opt/voc/scripts/{{ item.1.name }}-source.sh"
     mode: 0755
     owner: root
     group: root
@@ -102,7 +102,7 @@
 - name: create grabber-source script
   become: true
   template: src="voctomix-scripts/grabber-source.sh.j2"
-              dest="/opt/voctomix/scripts/{{ item.1.name }}-source.sh"
+              dest="/opt/voc/scripts/{{ item.1.name }}-source.sh"
               mode=0755 owner=root group=root
   with_indexed_items: "{{ voctomix_sources | selectattr('type', 'equalto', 'mjpeg') | list }}"
 
@@ -125,7 +125,7 @@
 - name: create rtmp-source script
   become: true
   template: src="voctomix-scripts/rtmp-source.sh.j2"
-              dest="/opt/voctomix/scripts/{{ item.1.name }}-source.sh"
+              dest="/opt/voc/scripts/{{ item.1.name }}-source.sh"
               mode=0755 owner=root group=root
   with_indexed_items: "{{ voctomix_sources | selectattr('type', 'equalto', 'rtmp') | list }}"
 
@@ -146,7 +146,7 @@
     # test sources # FIXME REMOVE
   - name: create test-source script
     template: src="voctomix-scripts/test-source.sh.j2"
-              dest="/opt/voctomix/scripts/{{ item.1.name }}-source.sh"
+              dest="/opt/voc/scripts/{{ item.1.name }}-source.sh"
               mode=0755 owner=root group=root
     with_indexed_items: "{{ voctomix_sources | selectattr('type', 'equalto', 'test') | list }}"
 
@@ -167,7 +167,7 @@
   # pause source
   - name: create pause-source script
     template: src="voctomix-scripts/pause-source.sh.j2"
-              dest="/opt/voctomix/scripts/pause-source.sh"
+              dest="/opt/voc/scripts/pause-source.sh"
               mode=0755 owner=root group=root
 
   - name: create pause-source systemd-unit
@@ -185,7 +185,7 @@
   # nostream source
   - name: create nostream-source script
     template: src="voctomix-scripts/nostream-source.sh.j2"
-              dest="/opt/voctomix/scripts/nostream-source.sh"
+              dest="/opt/voc/scripts/nostream-source.sh"
               mode=0755 owner=root group=root
 
   - name: create nostream-source systemd-unit
@@ -202,12 +202,12 @@
     # music source
   - name: create music-source script (python)
     template: src="voctomix-scripts/music-source-from-folder.py.j2"
-              dest="/opt/voctomix/scripts/music-source-from-folder.py"
+              dest="/opt/voc/scripts/music-source-from-folder.py"
               mode=0755 owner=root group=root
 
   - name: create music-source script (sh)
     template: src="voctomix-scripts/music-source.sh.j2"
-              dest="/opt/voctomix/scripts/music-source.sh"
+              dest="/opt/voc/scripts/music-source.sh"
               mode=0755 owner=root group=root
 
   - name: create music-source systemd-unit
@@ -225,7 +225,7 @@
     # bgloop source
   - name: create bgloop script
     template: src="voctomix-scripts/bgloop-source.sh.j2"
-              dest="/opt/voctomix/scripts/bgloop-source.sh"
+              dest="/opt/voc/scripts/bgloop-source.sh"
               mode=0755 owner=root group=root
     when: not voctomix.static_background_image
 
@@ -245,7 +245,7 @@
     # recording sink
   - name: create recording script
     template: src="voctomix-scripts/recording-sink.sh.j2"
-              dest="/opt/voctomix/scripts/recording-sink.sh"
+              dest="/opt/voc/scripts/recording-sink.sh"
               mode=0750 owner=root group=root
 
   - name: create recording systemd-unit
@@ -266,7 +266,7 @@
       - check_recording
 
   - file: src=/usr/local/sbin/check_system.sh
-        dest=/opt/voctomix/scripts/check_recording.sh
+        dest=/opt/voc/scripts/check_recording.sh
         state=link
     tags:
       - check_recording
@@ -276,7 +276,7 @@
   # TODO: please remove me some day
   - name: create recording check script
     file: state=absent
-          dest="/opt/voctomix/scripts/check_recording.sh"
+          dest="/opt/voc/scripts/check_recording.sh"
     tags:
       - check_recording
 
@@ -284,14 +284,14 @@
   - cron: name="check recording and send mqtt message"
           state=absent
           minute="*/1" hour="*" month="*" day="*"
-          job="nice -n 19 /opt/voctomix/scripts/check_recording.sh >/dev/null"
+          job="nice -n 19 /opt/voc/scripts/check_recording.sh >/dev/null"
 
 
 
     # streaming sinks
   - name: create rtmp streaming script
     template: src="voctomix-scripts/streaming-sink.sh.j2"
-              dest="/opt/voctomix/scripts/streaming-sink-{{ item }}.sh"
+              dest="/opt/voc/scripts/streaming-sink-{{ item }}.sh"
               mode=0755 owner=root group=root
     with_items: [hd, sd]
 
@@ -309,12 +309,12 @@
 
   - name: create -inactive- combined streaming script
     template: src="voctomix-scripts/streaming-sink-combined.sh.j2"
-              dest="/opt/voctomix/scripts/streaming-sink-combined.sh"
+              dest="/opt/voc/scripts/streaming-sink-combined.sh"
               mode=0755 owner=root group=root
 
   - name: create mkv-only streaming script
     template: src="voctomix-scripts/streaming-sink-mkvonly.sh.j2"
-              dest="/opt/voctomix/scripts/streaming-sink-mkvonly.sh"
+              dest="/opt/voc/scripts/streaming-sink-mkvonly.sh"
               mode=0755 owner=root group=root
 
   - name: create mkv-only systemd-unit
@@ -330,7 +330,7 @@
 
   - name: create framebuffer playout systemd-unit
     template: src="voctomix-scripts/framebuffer-playout.sh.j2"
-              dest="/opt/voctomix/scripts/{{ item }}-to-framebuffer-playout.sh"
+              dest="/opt/voc/scripts/{{ item }}-to-framebuffer-playout.sh"
               mode=0755 owner=root group=root
     with_items: [program, stream]
 
@@ -368,7 +368,7 @@
 
   - name: create decklink-playout scripts
     template: src="voctomix-scripts/decklink-playout.sh.j2"
-              dest="/opt/voctomix/scripts/{{ item[0] }}-to-{{ item[1] | lower | replace(' ', '-') | replace('(', '') | replace(')', '') }}-playout.sh"
+              dest="/opt/voc/scripts/{{ item[0] }}-to-{{ item[1] | lower | replace(' ', '-') | replace('(', '') | replace(')', '') }}-playout.sh"
               mode=0755 owner=root group=root
     with_nested:
       - [program, stream, grabber]
