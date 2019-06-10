@@ -26,7 +26,6 @@
       - /video/intros/{{ voc_event_acronym }}
       - /video/fuse/{{ voc_event_acronym }}
 
-
 # decklink sources
 - name: deploy decklink-format-detection-script
   become: true
@@ -46,8 +45,7 @@
     owner: root
     group: root
 
-
-  # recording sink
+# recording sink
 - name: create recording script
   become: true
   template:
@@ -75,18 +73,13 @@
 
 # check recording - called via check_system script (common role)
 - name: copy check_recording script
-  copy: src="check_recording.pl"
-          dest="/usr/local/bin/check_recording.pl"
-          mode=0755 owner=root group=root
-  tags:
-      - check_recording
+  copy: src="files/check_recording.pl"
+        dest="/usr/local/bin/check_recording.pl"
+        mode=0755 owner=root group=root
 
-- file: src=/usr/local/sbin/check_system.sh
-      dest=/opt/voctomix/scripts/check_recording.sh
-      state=link
-  tags:
-      - check_recording
-
-
+- name: Symlink check recording script
+  file: src=/usr/local/sbin/check_system.sh
+        dest=/opt/voc/scripts/check_recording.sh
+        state=link
 
 
