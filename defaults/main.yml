@@ -26,5 +26,11 @@ encoders_voctomix_setup: true
 voc_event_acronym: toolbox
 
 # do you know what the voc is doing for servic scripts
+#  to work with the toolbox bodensee setup it is currently (summer 2019) recomended
+#  that you keep these three variables like there are now!
 scip_random_voc_warning_because_you_know_what_you_are_doing: false
 encoders_voctomix_setup_advanced_random_services: false
+voc_mqtt: false
+
+# to enable the voctomix.parallel_slide_recording you have to fix some variables!
+voctomix_parallel_slide_recording: false

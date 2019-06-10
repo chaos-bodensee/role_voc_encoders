@@ -1,0 +1,43 @@
+---
+- name: find old units
+  become: true
+  shell: (grep -l "#MANAGED BY ANSIBLE" -r /etc/systemd/system/; find /etc/systemd/system/ -type f -name 'voctomix-*') | xargs -rl1 basename
+  register: old_units
+
+- debug: 
+    msg: "{{ old_units.stdout_lines }}"
+
+
+  # recording sink
+- name: create recording script
+  template: 
+    src: "toolbox-scripts/recording-sink.sh.j2"
+              dest="/opt/voc/scripts/recording-sink.sh"
+              mode=0750 owner=root group=root
+
+  - name: create recording systemd-unit
+    template: src="systemd-units/recording-sink.service.j2"
+              dest="/etc/systemd/system/recording-sink.service"
+              mode=0644 owner=root group=root
+
+  - name: enable recording service
+    service: name=recording-sink.service
+             enabled=yes
+
+  # check recording - called via check_system script (common role)
+  - name: copy check_recording script
+    copy: src="check_recording.pl"
+          dest="/usr/local/bin/check_recording.pl"
+          mode=0755 owner=root group=root
+    tags:
+      - check_recording
+
+  - file: src=/usr/local/sbin/check_system.sh
+        dest=/opt/voctomix/scripts/check_recording.sh
+        state=link
+    tags:
+      - check_recording
+
+
+
+

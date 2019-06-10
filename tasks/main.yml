@@ -11,3 +11,6 @@
 - include_tasks: encodermode-voctomix.yml
   when: encoders_voctomix_setup_advanced_random_services|bool
 
+- include_tasks: basic-toolbox-mode-voctomix.yml
+  when: not  encoders_voctomix_setup_advanced_random_services|bool
+
