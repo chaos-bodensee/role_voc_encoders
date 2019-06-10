@@ -49,6 +49,7 @@
 
   # recording sink
 - name: create recording script
+  become: true
   template:
     src: "toolbox-scripts/recording-sink.sh.j2"
     dest: "/opt/voc/scripts/recording-sink.sh"
@@ -57,15 +58,22 @@
     group: root
 
 - name: create recording systemd-unit
-  template: src="systemd-units/recording-sink.service.j2"
-              dest="/etc/systemd/system/recording-sink.service"
-              mode=0644 owner=root group=root
+  become: true
+  template:
+    src: "toolbox-systemd-units/recording-sink.service.j2"
+    dest: "/etc/systemd/system/recording-sink.service"
+    mode: 0644
+    owner: root
+    group: root
 
 - name: enable recording service
-  service: name=recording-sink.service
-             enabled=yes
+  become: true
+  systemd:
+    name: recording-sink.service
+    enabled: yes
+    daemon_reload: yes
 
-  # check recording - called via check_system script (common role)
+# check recording - called via check_system script (common role)
 - name: copy check_recording script
   copy: src="check_recording.pl"
           dest="/usr/local/bin/check_recording.pl"
