@@ -182,8 +182,8 @@
 - name: disable & stop voctocore service when not in voctomix-mode
   become: true
   service: name=voctocore.service
-             enabled=no
-             state=stopped
+           enabled=no
+           state=stopped
   when: encodermode is not defined or encodermode != 'hd-voctomix'
 
 - name: create voctomix-status script
