@@ -2,7 +2,7 @@
 - name: Disbale IPv6 on all interfaces
   become: true
   when: disable_ipv6 | bool
-  sysctl: 
+  sysctl:
     name: 'net.ipv6.conf.all.disable_ipv6'
     value: true
     sysctl_set: yes
@@ -12,7 +12,7 @@
 # Create common files and directories
 - name: create /video if not present
   become: true
-  file: 
+  file:
     dest: '/video'
     state: directory
 
