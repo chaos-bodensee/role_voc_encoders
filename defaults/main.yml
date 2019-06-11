@@ -46,6 +46,9 @@ voc_perl_is_fixed: false
 # icecast and all the other crazy and awesome stuff bevore enabeling it
 voc_enable_original_fancy_streaming_to_localhost: false
 
+# disable pause service
+voctomix_no_pause: false
+
 # use rsync to copy files away?
 rsync_video_files: true
 
