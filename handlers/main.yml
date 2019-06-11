@@ -1,0 +1,13 @@
+---
+- name: restart smbd
+  become: true
+  service:
+    name: smbd
+    state: restarted
+
+- name: reload rsync config
+  become: true
+  service:
+    name: rsync
+    state: restarted
+
