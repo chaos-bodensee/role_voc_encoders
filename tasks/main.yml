@@ -17,3 +17,5 @@
 - include_tasks: rsync.yml
   when: rsync_video_files | bool
 
+- include_tasks: samba.yml
+  when: samba_video_files | bool

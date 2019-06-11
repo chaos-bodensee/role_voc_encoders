@@ -48,3 +48,6 @@ voc_enable_original_fancy_streaming_to_localhost: false
 
 # use rsync to copy files away?
 rsync_video_files: true
+
+# use samba to copy files away?
+samba_video_files: true
