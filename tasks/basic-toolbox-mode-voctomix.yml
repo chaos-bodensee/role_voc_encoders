@@ -155,7 +155,7 @@
   # pause source
 - name: create pause-source script
   template: src="toolbox-scripts/pause-source.sh.j2"
-            dest="/opt/voctomix/scripts/pause-source.sh"
+            dest="/opt/voc/scripts/pause-source.sh"
             mode=0755 owner=root group=root
 
 - name: create pause-source systemd-unit
