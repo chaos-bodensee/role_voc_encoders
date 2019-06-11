@@ -1,0 +1,24 @@
+---
+- name: install rsync
+  become: true
+  package:
+    name: rsync
+    state: present
+
+- name: enable rsyncd
+  become: true
+  lineinfile: dest=/etc/default/rsync
+              regexp='^RSYNC_ENABLE.*' state=present
+              line="RSYNC_ENABLE=true"
+
+- name: configure rsyncd for /video
+  become: true
+  copy: src=rsync/rsync.conf
+        dest=/etc/rsyncd.conf
+        mode=0644 owner=root group=root
+  notify: reload rsync config
+
+- name: enable rsyncd
+  become: true
+  service: name=rsync enabled=yes state=started
+

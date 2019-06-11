@@ -14,3 +14,6 @@
 - include_tasks: basic-toolbox-mode-voctomix.yml
   when: not  encoders_voctomix_setup_advanced_random_services|bool
 
+- include_tasks: rsync.yml
+  when: rsync_video_files | bool
+
