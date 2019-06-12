@@ -114,19 +114,24 @@
   with_items: [hd, sd]
 
 - name: disable rtmp streaming services
-  service: name=streaming-sink-{{ item }}.service
-           enabled=no
+  become: true
+  systemd:
+    name: "streaming-sink-{{ item }}.service"
+    enabled: no
+    masked: yes
   with_items: [hd, sd]
 
 - name: disable rtmp streaming services
-  service: name=streaming-sink-{{ item }}.service
-           enabled=yes
+  become: true
+  systemd: name=streaming-sink-{{ item }}.service
+           enabled=yes masked=no
   with_items: [hd]
   when: enable_hd_stream | bool
 
 - name: disable rtmp streaming services
-  service: name=streaming-sink-{{ item }}.service
-           enabled=yes
+  become: true
+  systemd: name=streaming-sink-{{ item }}.service
+           enabled=yes masked=no
   with_items: [sd]
   when: enable_hd_stream | bool
 
