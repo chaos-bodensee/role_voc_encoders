@@ -133,7 +133,7 @@
   systemd: name=streaming-sink-{{ item }}.service
            enabled=yes masked=no
   with_items: [sd]
-  when: enable_hd_stream | bool
+  when: enable_sd_stream | bool
 
 
 
