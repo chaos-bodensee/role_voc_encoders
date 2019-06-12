@@ -171,14 +171,20 @@
               mode=0755 owner=root group=root
 
 - name: create pause-source systemd-unit
-  template: src="systemd-units/pause-source.service.j2"
+  template: src="toolbox-systemd-units/pause-source.service.j2"
               dest="/etc/systemd/system/pause-source.service"
               mode=0644 owner=root group=root
+  when: voctomix_no_pause | bool
 
 - name: enable pause-source service
   service: name=pause-source.service
              enabled=yes
-  when: (voctomix_no_pause is not defined) or (not voctomix_no_pause)
+  when: (voctomix_no_pause is not defined) or (not voctomix_no_pause | bool)
+
+- name: enable pause-source service
+  service: name=pause-source.service
+             enabled=no
+  when: voctomix_no_pause | bool
 
 
 

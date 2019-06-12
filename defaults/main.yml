@@ -47,7 +47,7 @@ voc_perl_is_fixed: false
 voc_enable_original_fancy_streaming_to_localhost: false
 
 # disable pause service
-voctomix_no_pause: false
+voctomix_no_pause: true
 
 # use rsync to copy files away?
 rsync_video_files: true
