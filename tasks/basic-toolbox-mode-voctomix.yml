@@ -98,6 +98,42 @@
 # create services for streaming
 # but only, if we know what they do
 # currently we do it more simple!
+
+    # streaming sinks
+- name: create rtmp streaming script
+  template: src="toolbox-scripts/streaming-sink.sh.j2"
+            dest="/opt/voc/scripts/streaming-sink-{{ item }}.sh"
+            mode=0755 owner=root group=root
+  with_items: [hd, sd]
+
+- name: create rtmp streaming systemd-unit
+  become: true
+  template: src="toolbox-systemd-units/streaming-sink.service.j2"
+            dest="/etc/systemd/system/streaming-sink-{{ item }}.service"
+            mode=0644 owner=root group=root
+  with_items: [hd, sd]
+
+- name: disable rtmp streaming services
+  service: name=streaming-sink-{{ item }}.service
+           enabled=no
+  with_items: [hd, sd]
+
+- name: disable rtmp streaming services
+  service: name=streaming-sink-{{ item }}.service
+           enabled=yes
+  with_items: [hd]
+  when: enable_hd_stream | bool
+
+- name: disable rtmp streaming services
+  service: name=streaming-sink-{{ item }}.service
+           enabled=yes
+  with_items: [sd]
+  when: enable_hd_stream | bool
+
+
+
+
+
 - name: create -inactive- combined streaming script
   become: true
   template: src="voctomix-scripts/streaming-sink-combined.sh.j2"

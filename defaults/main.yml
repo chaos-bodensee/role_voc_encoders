@@ -54,3 +54,11 @@ rsync_video_files: true
 
 # use samba to copy files away?
 samba_video_files: true
+
+enable_hd_stream: false
+enable_sd_stream: false
+
+# where to stream to?
+voc_streaming_endpoint: rtmp://localhost/live/foo
+
+

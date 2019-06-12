@@ -297,14 +297,15 @@
     # streaming sinks
 - name: create rtmp streaming script
   template: src="voctomix-scripts/streaming-sink.sh.j2"
-              dest="/opt/voc/scripts/streaming-sink-{{ item }}.sh"
-              mode=0755 owner=root group=root
+            dest="/opt/voc/scripts/streaming-sink-{{ item }}.sh"
+            mode=0755 owner=root group=root
   with_items: [hd, sd]
 
 - name: create rtmp streaming systemd-unit
-  template: src="systemd-units/streaming-sink.service.j2"
-              dest="/etc/systemd/system/streaming-sink-{{ item }}.service"
-              mode=0644 owner=root group=root
+  become: true
+  template: src="toolbox-systemd-units/streaming-sink.service.j2"
+            dest="/etc/systemd/system/streaming-sink-{{ item }}.service"
+            mode=0644 owner=root group=root
   with_items: [hd, sd]
 
 - name: disable rtmp streaming services
