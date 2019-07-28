@@ -1,5 +1,5 @@
 ---
-playbook_version_number: 8994 # should be over ninethousand!
+playbook_version_number: 8995 # should be over ninethousand!
 playbook_version_path: '/etc/ansible-version/voc_encoders_chaos-bodensee_github.com.version'
 
 voc_encoder_packages:
