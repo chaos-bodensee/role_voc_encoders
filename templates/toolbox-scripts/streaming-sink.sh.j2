@@ -24,3 +24,10 @@ ffmpeg -y -nostdin \
 	-ac 1 -c:a aac -b:a 96k -ar 44100 \
 	\
 	-y -f flv {{ voc_streaming_endpoint }}
+    {%- if use_trailer_for_rtmp | bool -%}
+        {%- if item == 'hd' -%}
+            {{ voc_streaming_endpoint_hd_trailer }}
+        {%- elif item == 'sd' -%}
+            {{ voc_streaming_endpoint_sd_trailer }}
+        {%- end %}
+    {%- end %}

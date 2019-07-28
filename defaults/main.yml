@@ -61,4 +61,7 @@ enable_sd_stream: false
 # where to stream to?
 voc_streaming_endpoint: rtmp://localhost/live/foo
 
-
+# detailed streaming info for HD and SD
+use_trailer_for_rtmp: false
+voc_streaming_endpoint_hd_trailer: '_native_hd'
+voc_streaming_endpoint_sd_trailer: '_native_sd'
