@@ -402,7 +402,7 @@
   # voctocore configuration
 - name: create voctocore config
   template: src="voctomix-config/voctocore-config.ini.j2"
-              dest="/opt/voctomix/voctocore-config.ini"
+              dest="/opt/voc/voctomix/voctocore-config.ini"
               mode=0644 owner=root group=root
   when: voctomix_sources is defined
 
